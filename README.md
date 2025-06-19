@@ -1,43 +1,43 @@
-###OpenCart 3 - Easy Redirect 
+# **OpenCart 3 - Easy Redirect** 
 
-**Easy Redirect ** is a lightweight and easy-to-use module for OpenCart 3 that helps you manage and fix 404 (Not Found) errors directly from the admin panel.
+**Easy Redirect** is a lightweight and easy-to-use module for OpenCart 3 that helps you manage and fix 404 (Not Found) errors directly from the admin panel.
 
-Features
+### **Features**
 
-Easily add 301 redirects from broken URLs to correct ones
+- Easily add 301 redirects from broken URLs to correct ones
 
-Edit or delete existing redirects via the admin interface
+- Edit or delete existing redirects via the admin interface
 
-Supports SEO-friendly URLs
+- Supports SEO-friendly URLs
 
-Helps improve SEO and user experience by preventing dead links
+- Helps improve SEO and user experience by preventing dead links
 
-Installation
+### **Installation**
 
-Upload the module via the OpenCart admin panel (Extensions > Installer)  or by ftp in root directory
+1. Upload the module via the OpenCart admin panel (*Extensions > Installer*)  or by ftp in root directory
 
-Go to Extensions > Modules, find Easy Redirect and click “Install”
+2. Go to *Extensions > Modules*, find Easy Redirect and click “Install”
 
-Configure the module under Extensions > Modules > Easy Redirect
+3. Configure the module under *Extensions > Modules > Easy Redirect*
 
-Requirements
+### **Requirements**
 
-OpenCart 3.x
+- OpenCart 3.x
 
-Admin access rights
+- Admin access rights
 
-Usage
+### **Usage**
 
-Visit Extensions > Modules > Easy Redirect and turn on module.
+-Visit *Extensions > Modules > Easy Redirect* and turn on module.
 
-Add broken URL, assign a redirect target (SEO URL or full path).
+-Add broken URL, assign a redirect target (SEO URL or full path).
 
-Save the redirect and enjoy improved navigation and SEO performance.
+-Save the redirect and enjoy improved navigation and SEO performance.
 
-License
+### **License**
 
 This module is licensed under the MIT License. See LICENSE for more details.
 
-Contributions
+### **Contributions**
 
 Feel free to fork this repository, submit issues, or suggest improvements via pull requests.
