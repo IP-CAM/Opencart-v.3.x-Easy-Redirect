@@ -1,0 +1,279 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        
+        <label class="status_info">
+		  <span>Status</span>
+		  <input type="checkbox" {% if easy_redirect_status %} checked {% endif %}>
+		  <span class="text"></span>
+		</label>
+
+        <a href="" onclick="addRedirect();return false;" data-toggle="tooltip" title="{{ button_add }}" class="btn btn-primary"><i class="fa fa-plus"></i></a>
+        
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+	    <div class="row">
+	    	<div class="col-sm-12">
+		        <div class="panel panel-default">
+		          <div class="panel-heading">
+		            <h3 class="panel-title"><i class="fa fa-list"></i> {{ text_list }}</h3>
+		          </div>
+		          <div class="panel-body">
+		          	
+		              <div class="table-responsive">
+		                <table class="table table-bordered table-hover">
+		                  <thead>
+		                    <tr>
+		                      
+		                      <td class="text-center">{{ column_id }}</td>
+		                      <td class="text-center">{{ column_from }}</td>
+		                      <td class="text-center">{{ column_to }}</td>
+		                      <td class="text-center">{{ column_response }}</td>
+		                      <td class="text-center">{{ column_used }}</td>
+		                      <td class="text-center">{{ column_action }}</td>
+		                    </tr>
+		                  </thead>
+		                  <tbody>
+		                  
+		                  {% if redirects %}
+		                  {% for redirect in redirects %}
+		                  <tr>
+		                    
+		                    <td class="text-center id_redirect">{{ redirect.id }}</td>
+		                    <td class="text-left from">{{ redirect.from }}</td>
+		                    <td class="text-left to">{{ redirect.to }}</td>
+		                    <td class="text-center resp">{{ redirect.response }}</td>
+		                    <td class="text-center">{{ redirect.used }}</td>
+		                    <td class="text-right">
+		                    	<a href="" onclick="editRedirect($(this));return false;" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+		                    	<a href="" onclick="confirm('{{ text_confirm }}') ? deleteRedirect($(this)) : false;return false;" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
+		                    </td>
+		                  </tr>
+		                  {% endfor %}
+		                  {% else %}
+		                  <tr>
+		                    <td class="text-center" colspan="6">{{ text_no_results }}</td>
+		                  </tr>
+		                  {% endif %}
+		                    </tbody>
+		                  
+		                </table>
+		              </div>
+		            
+		            <div class="row pagination_block">
+		              <div class="col-sm-6 text-left">{{ pagination }}</div>
+		              <div class="col-sm-6 text-right">{{ results }}</div>
+		            </div>
+
+		          </div>
+		        </div>
+            </div>
+	    </div>
+	</div>
+
+
+
+
+
+
+</div>
+
+<div class="new_redirect_ppp">
+	<div class="wrap_line">
+		<input type="hidden" name="id_redirect" value="">
+		<input type="text" name="from_url" class="form-control" placeholder="{{ column_from }}">
+		<input type="text" name="to_url" class="form-control" placeholder="{{ column_to }}">
+		<select name="" id="response" class="form-control">
+			<option value="301">301</option>
+			<option value="302">302</option>
+		</select>
+		<button id="save_redirect" class="btn btn-primary">{{ button_add }}</button>
+		<button id="cancel_redirect" class="btn btn-danger">{{ button_cancel }}</button>
+	</div>
+</div>
+
+<style>
+	body:has(.new_redirect_ppp.open){
+		overflow: hidden;
+	}
+	.new_redirect_ppp{
+		display: none;
+	}
+	.new_redirect_ppp.open{
+        display: flex;
+	    position: absolute;
+	    top: 50%;
+	    right: 0;
+	    transform: translate(-1%, -50%);
+	    width: 87%;
+	    justify-content: center;
+	    padding: 30px 60px;
+	    background: #cbcbcb7a;
+	    border: 1px solid #ddd;
+	    z-index: 999;
+	    height: 100%;
+	    align-items: center;
+	}
+	.wrap_line {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    width: 100%;
+	    gap: 15px;
+	}
+	select#response {
+	    width: 10%;
+	}
+	input + .text:after {
+	  content: "OFF"
+	}
+	input:checked + .text:after {
+	  content: "ON"
+	}
+	label.status_info {
+	    padding: 10px;
+	    margin-right: 30px;
+	    height: 50px;
+	}
+	label.status_info span {
+	    margin-right: 10px;
+	    font-size: 16px;
+	    line-height: 26px;
+	}
+	label.status_info:has(:checked) {
+	    background: #5b995b;
+	    color: #fff;
+	    border-radius: 8px;
+	}
+	td.text-left.id_redirect {
+	    width: 50px;
+	}
+	td.text-left.from {
+	    width: 45%;
+	}
+	td.text-left.to {
+	    width: 33%;
+	}
+</style>
+<script>
+function addRedirect(id = '',from = '',to = '', resp = '301',){
+	$('.new_redirect_ppp').addClass('open');
+	$('input[name="id_redirect"]').val(id);
+	$('input[name="from_url"]').val(from);
+	$('input[name="to_url"]').val(to);
+	$('#response').val(resp);
+}
+
+function deleteRedirect(line){
+	var parent = $(line).parents('tr');
+	var id_redirect = $(parent).find('td.id_redirect').text();
+	var postdata = new FormData();
+	postdata.append('id_redirect', id_redirect);
+	$.ajax({
+		url:'index.php?route=extension/module/easy_redirect/delete&user_token=' + getURLVar('user_token'),
+		type: 'POST',
+			data: postdata,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data) { // в случае успешного завершения
+				$('.table-responsive').load('index.php?route=extension/module/easy_redirect&user_token=' + getURLVar('user_token') + ' .table-responsive');
+				$('.pagination_block').load('index.php?route=extension/module/easy_redirect&user_token=' + getURLVar('user_token') + ' .pagination_block');
+            },
+            error: function(xhr) {
+			  console.error('❌ RAW response:', xhr.responseText);
+			}
+	});
+}
+
+function editRedirect(edit){
+	var parent = $(edit).parents('tr');
+	var from = $(parent).find('td.from').text();
+	var to = $(parent).find('td.to').text();
+	var resp = $(parent).find('td.resp').text();
+	var id_redirect = $(parent).find('td.id_redirect').text();
+	addRedirect(id_redirect,from,to,resp);
+}
+
+$('#cancel_redirect').on('click', function() {
+	$(this).parents('.new_redirect_ppp>.wrap_line input').val('');
+	$(this).parents('.new_redirect_ppp').removeClass('open');
+});
+
+$('#save_redirect').on('click', function(){
+	if($('input[name="from_url"]').val() != '' && $('input[name="to_url"]').val() != ''){
+		var postdata = new FormData();
+		postdata.append('id_redirect',$('input[name="id_redirect"]').val());
+		postdata.append('from_url',$('input[name="from_url"]').val());
+		postdata.append('to_url',$('input[name="to_url"]').val());
+		postdata.append('response',$('#response').val());
+		$.ajax({
+			url: 'index.php?route=extension/module/easy_redirect/add&user_token=' + getURLVar('user_token'),
+			type: 'POST',
+			data: postdata,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data) { // в случае успешного завершения
+                $('.new_redirect_ppp input').val('');
+                $('.new_redirect_ppp').removeClass('open');
+                $('.table-responsive').load('index.php?route=extension/module/easy_redirect&user_token=' + getURLVar('user_token') + ' .table-responsive');
+                $('.pagination_block').load('index.php?route=extension/module/easy_redirect&user_token=' + getURLVar('user_token') + ' .pagination_block');
+
+            },
+            error: function(xhr) {
+			  console.error('❌ RAW response:', xhr.responseText);
+			}
+		});
+	}else{
+		alert('{{ text_not_empty }}');
+	}
+});
+
+
+$('.status_info input').on('change', function(){
+	var on_off = '';
+	if($(this).is(':checked')){
+		on_off = 'on';
+	}
+	var postdata = new FormData();
+	postdata.append('easy_redirect_status', on_off);
+	$.ajax({
+		url: 'index.php?route=extension/module/easy_redirect/changeStatus&user_token=' + getURLVar('user_token'),
+			type: 'POST',
+			data: postdata,
+			dataType: 'json',
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data) { // в случае успешного завершения
+                console.log(data);
+            },
+            error: function(xhr) {
+			  console.error('❌ RAW response:', xhr.responseText);
+			}
+	});
+});
+
+</script>
