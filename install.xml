@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<modification>
+    
+	<name>Easy Redirect</name>
+    <code>easy_redirect</code>
+	<version>v1.0</version>
+	<author>Dmytro Shedlovskyi</author>
+	<link>http://opencart.com</link>
+	
+	<file path="catalog/controller/common/header.php">
+		<operation error="skip">
+			<search trim="true"><![CDATA[
+				function index() {
+			]]></search>
+			<add position="after" trim="true"><![CDATA[
+				// Easy Redirect
+				$this->load->model('extension/module/easy_redirect');
+				$this->model_extension_module_easy_redirect->redirect();
+				// end
+			]]></add>
+		</operation>
+	</file>
+	
+</modification>
