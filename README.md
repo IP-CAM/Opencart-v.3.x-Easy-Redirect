@@ -1,4 +1,4 @@
-OpenCart 3 - Easy Redirect 
+###OpenCart 3 - Easy Redirect 
 
 **Easy Redirect ** is a lightweight and easy-to-use module for OpenCart 3 that helps you manage and fix 404 (Not Found) errors directly from the admin panel.
 
