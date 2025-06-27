@@ -15,6 +15,7 @@ class ModelExtensionModuleEasyRedirect extends Model {
 		
 		$from = 'http' . (!empty($server['HTTPS']) && $server['HTTPS'] != 'off' ? 's' : '') . '://' . $server['HTTP_HOST'] . $url[0];
 		$from = strtolower($from);
+		$from = str_replace('&amp;', '&', $from);
 		if (substr($from, -1) == '/') $from = substr($from, 0, -1);
 
 		$redirect_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "easy_redirect` WHERE '" . $this->db->escape($from) . "' = LCASE(from_url) OR '" . $this->db->escape($from) . "/' = LCASE(from_url)");
